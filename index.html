@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Puente de mando · recorrido 360</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="js/aframe.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <a-scene
+      id="scene"
+      embedded
+      tour-binder
+      loading-screen="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      renderer="antialias: true; colorManagement: true"
+      xr-mode-ui="enabled: false">
+      <a-sky id="sky" src="assets/panorama.png" radius="500" segments-width="96" segments-height="64"></a-sky>
+      <a-entity
+        id="cam"
+        camera="fov: 72; near: 0.1; far: 2000"
+        look-controls="enabled: true; mouseEnabled: false; touchEnabled: false; magicWindowTrackingEnabled: false; pointerLockEnabled: false"
+        wasd-controls="enabled: false"
+        position="0 0 0"></a-entity>
+    </a-scene>
+
+    <div id="markers"></div>
+
+    <header id="topbar">
+      <p class="eyebrow">Buque · puente de mando</p>
+      <h1>Recorrido 360</h1>
+    </header>
+
+    <aside id="directory" aria-label="Equipos del puente">
+      <div class="directory-head">
+        <h2>Equipos</h2>
+        <button type="button" id="toggle-list" aria-expanded="true">Ocultar</button>
+      </div>
+      <div id="list"></div>
+    </aside>
+
+    <article id="card" hidden aria-live="polite"></article>
+
+    <div id="hint">
+      <span>Arrastra para mirar</span>
+      <span>Rueda para acercar</span>
+      <span>Pulsa un punto para explicarlo</span>
+    </div>
+
+    <div id="welcome">
+      <div class="welcome-card">
+        <p class="eyebrow">Fotografía equirectangular</p>
+        <h2>El puente, para explicarlo por partes</h2>
+        <p>
+          Estás en el centro del puente de mando. Cada punto marca un equipo
+          visible en esta foto: ábrelo y lee para qué sirve y cómo contarlo.
+        </p>
+        <p class="note">
+          La función se deduce de lo que se ve. Si un mando de este buque está
+          cableado de otra forma, manda su manual y su plano de seguridad.
+        </p>
+        <div class="welcome-actions">
+          <button type="button" id="start-tour" class="primary">Empezar el recorrido</button>
+          <button type="button" id="free-look" class="ghost">Mirar libremente</button>
+          <a class="ghost" href="juego.html">Entrar al puente en 3D</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="loader" role="status">Cargando el puente…</div>
+    <noscript>
+      <p class="noscript">Este recorrido necesita JavaScript para mostrar el puente en 360°.</p>
+    </noscript>
+  </div>
+  <script src="js/tour.js"></script>
+</body>
+</html>

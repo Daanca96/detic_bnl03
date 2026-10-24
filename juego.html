@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Puente de mando · 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/game.css">
+  <script src="js/aframe.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="view"></canvas>
+    <div id="vignette"></div>
+    <div id="crosshair"></div>
+
+    <header id="topbar">
+      <p class="eyebrow">Buque · puente de mando</p>
+      <h1>Puente en 3D</h1>
+      <a href="index.html">Volver al 360</a>
+    </header>
+
+    <aside id="directory">
+      <div class="directory-head">
+        <h2>Equipos</h2>
+        <button type="button" id="toggle-list" aria-expanded="true">Ocultar</button>
+      </div>
+      <div id="list"></div>
+    </aside>
+
+    <p id="prompt" hidden></p>
+    <article id="card" hidden></article>
+    <p id="hint"><span>WASD caminar</span><span>Ratón mirar</span><span>E explicar</span></p>
+
+    <div id="welcome">
+      <div class="welcome-card">
+        <p class="eyebrow">Recorrido jugable</p>
+        <h2>Entra al puente</h2>
+        <p>
+          Camina por una versión en 3D del mismo puente. Acércate a un equipo,
+          míralo y pulsa E para explicar qué hace.
+        </p>
+        <div class="welcome-actions">
+          <button type="button" id="play" class="primary">Entrar</button>
+          <a class="ghost" href="index.html">Volver a la foto 360</a>
+        </div>
+      </div>
+    </div>
+    <p id="boot-error"></p>
+  </div>
+  <script src="js/bridge.js"></script>
+</body>
+</html>

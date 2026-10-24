@@ -1,0 +1,451 @@
+:root {
+  --ink: #17211c;
+  --foam: #f4efe4;
+  --foam-dim: #e7e0d2;
+  --brass: #e2a122;
+  --brass-deep: #8a5a10;
+  --sea: #07110e;
+  --danger: #d24b38;
+  --line: rgba(23, 33, 28, 0.12);
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  --sans: "Outfit", "Segoe UI", sans-serif;
+  --serif: "Newsreader", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--sea);
+  color: var(--foam);
+  font-family: var(--sans);
+}
+
+#app {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+a-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.a-canvas { cursor: grab; }
+.a-canvas.is-grabbing { cursor: grabbing; }
+a-scene, canvas { outline: none; }
+
+#markers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.marker {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #fff8ea;
+  border-radius: 50%;
+  background: var(--brass);
+  box-shadow: 0 0 0 6px rgba(226, 161, 34, 0.28);
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.marker.seguridad {
+  background: var(--danger);
+  box-shadow: 0 0 0 6px rgba(210, 75, 56, 0.28);
+}
+
+.marker::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 248, 234, 0.7);
+  animation: pulse 2.4s ease-out infinite;
+}
+
+.marker .tip {
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(7, 17, 14, 0.88);
+  color: var(--foam);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.marker:hover .tip,
+.marker:focus-visible .tip,
+.marker.active .tip,
+.marker.near .tip {
+  opacity: 1;
+}
+
+.marker.active {
+  background: var(--foam);
+  border-color: var(--brass-deep);
+  z-index: 3;
+}
+
+.marker:focus-visible {
+  outline: 2px solid var(--foam);
+  outline-offset: 3px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.7); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+#app.has-card #directory {
+  max-height: calc(100% - 470px);
+}
+
+#app:not(.exploring) #markers,
+#app:not(.exploring) #hint {
+  display: none;
+}
+
+.a-enter-vr,
+.a-enter-ar,
+.a-orientation-modal {
+  display: none !important;
+}
+
+#topbar {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 4;
+  padding: 12px 14px 10px;
+  border-radius: 14px;
+  background: rgba(7, 17, 14, 0.72);
+  backdrop-filter: blur(8px);
+  max-width: min(280px, calc(100vw - 36px));
+}
+
+.eyebrow {
+  margin: 0 0 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+
+#topbar h1,
+.welcome-card h2,
+#card h3,
+#directory h2 {
+  font-family: var(--serif);
+  font-weight: 550;
+  letter-spacing: -0.02em;
+}
+
+#topbar h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1;
+}
+
+#directory {
+  position: absolute;
+  top: 108px;
+  left: 18px;
+  z-index: 4;
+  width: min(280px, calc(100vw - 36px));
+  max-height: calc(100% - 170px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  background: rgba(7, 17, 14, 0.78);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+.directory-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px 8px;
+}
+
+#directory h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+#toggle-list,
+.ghost,
+.primary,
+.step {
+  font: inherit;
+  cursor: pointer;
+}
+
+#toggle-list {
+  border: 0;
+  background: transparent;
+  color: var(--foam-dim);
+  font-size: 13px;
+}
+
+#list {
+  overflow: auto;
+  padding: 0 8px 10px;
+}
+
+#list.collapsed { display: none; }
+
+.equipo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 2px 0;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foam);
+  text-align: left;
+  font-size: 14.5px;
+}
+
+.equipo:hover,
+.equipo:focus-visible { background: rgba(244, 239, 228, 0.08); }
+
+.equipo.active { background: rgba(226, 161, 34, 0.18); }
+
+.equipo .index {
+  width: 1.4em;
+  flex: none;
+  color: var(--brass);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+.equipo .name { flex: 1; }
+
+.equipo .cat {
+  flex: none;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 228, 0.46);
+}
+
+#card {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 5;
+  width: min(640px, calc(100% - 36px));
+  transform: translateX(-50%);
+  padding: 18px 18px 14px;
+  border-radius: 18px;
+  background: var(--foam);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+#card .card-kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass-deep);
+}
+
+#card h3 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+#card p { margin: 0 0 10px; font-size: 16px; line-height: 1.45; }
+
+#card .say {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--brass);
+  background: rgba(226, 161, 34, 0.12);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+#card .say span {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass-deep);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.primary,
+.ghost,
+.step {
+  border-radius: 999px;
+  padding: 9px 14px;
+}
+
+a.primary,
+a.ghost {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+}
+
+.primary {
+  border: 0;
+  background: var(--sea);
+  color: var(--foam);
+}
+
+.ghost,
+.step {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+}
+
+.welcome-card .ghost { color: var(--foam); border-color: rgba(244, 239, 228, 0.3); }
+
+#hint {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  max-width: min(420px, calc(100% - 36px));
+}
+
+#hint span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(7, 17, 14, 0.72);
+  font-size: 13px;
+}
+
+#card:not([hidden]) ~ #hint { display: none; }
+
+#welcome {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(7, 17, 14, 0.46);
+}
+
+#welcome[hidden] { display: none; }
+
+.welcome-card {
+  width: min(520px, 100%);
+  padding: 26px 26px 22px;
+  border-radius: 20px;
+  background: rgba(7, 17, 14, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.welcome-card h2 {
+  margin: 0 0 10px;
+  font-size: 38px;
+  line-height: 1.05;
+}
+
+.welcome-card p { margin: 0 0 12px; line-height: 1.45; }
+
+.welcome-card .note {
+  color: rgba(244, 239, 228, 0.76);
+  font-size: 14px;
+}
+
+.welcome-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+#loader {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  display: grid;
+  place-items: center;
+  background: var(--sea);
+  font-family: var(--serif);
+  font-size: 28px;
+}
+
+#loader[hidden] { display: none; }
+
+.noscript {
+  position: absolute;
+  inset: auto 16px 16px 16px;
+  z-index: 8;
+  padding: 12px;
+  background: var(--foam);
+  color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  #topbar { top: 10px; left: 10px; padding: 8px 10px; }
+  #topbar h1 { font-size: 22px; }
+  #directory {
+    top: auto;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-height: 34%;
+  }
+  #card {
+    bottom: 10px;
+    width: calc(100% - 20px);
+    max-height: 46%;
+    overflow: auto;
+  }
+  #card h3 { font-size: 26px; }
+  #hint { display: none; }
+  #app.has-card #directory { display: none; }
+  .welcome-card h2 { font-size: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker::after { animation: none; }
+}
